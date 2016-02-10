@@ -1,0 +1,8 @@
+# Shell script illustrating how to build a jar file from a Java source file.
+# # Required: filename.java and filename.mf (manifest file)
+# Usage: make-jar filename
+# To execute the jar file: java -jar filename.jar
+
+javac $1.java
+/usr/local/jdk1.8.0_45/bin/jar cvmf $1.mf $1.jar *.class
+
