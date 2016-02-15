@@ -1,0 +1,6 @@
+# Shell script to run javadoc.
+# Usage: make-doc file1.java file2.java ...
+# Open index.html in browser to see HTML documentation.
+
+javadoc -author -version $*
+
