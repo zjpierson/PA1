@@ -1,4 +1,13 @@
-import java.util.Date;
+/*
+                    ***** WeatherDataContainer.java *****
+
+Author: Zachary Pierson
+Class: CSC468 GUI Programming, Spring 2016
+
+Modifications:
+*/
+
+import java.util.*;
 
 public class WeatherDataContainer 
 {
