@@ -71,109 +71,100 @@ public class ReadXML2
         // recursively process each child node
         while ( iterator.hasNext() )
         {
-            WeatherDataContainer dataPoint = new WeatherDataContainer();
-//            System.out.println("New!!!!*************************");
+//            WeatherDataContainer weatherDataPoint = new WeatherDataContainer();
+            WeatherConverter dataPoint = new WeatherConverter();
             Element child = ( Element ) iterator.next();
-//            listChildren(child, depth + 1);
             FillDataPoint( child, depth + 1, dataPoint);
+            weatherData.add(dataPoint.Convert());
         }
+
+        System.out.println();
+        for(int i = 0; i < weatherData.size(); i++)
+        {
+            System.out.println(weatherData.get(i).date);
+        }
+        System.out.println();
     }
 
     // print XML tags and leaf node values
-    public static void FillDataPoint( Element current, int depth, WeatherDataContainer weatherDataPoint )
+    public static void FillDataPoint( Element current, int depth, WeatherConverter dataPoint )
     {
         // get children of current node
         List children = current.getChildren();
         Iterator iterator = children.iterator();
         String name = current.getName();
-        System.out.println(name);
+        System.out.print(name);
+        if ( !iterator.hasNext() )
+            System.out.print( " = " + current.getValue() );
+        System.out.println();
 
-        DateFormat dateFormat = new SimpleDateFormat("mm/dd/yy", Locale.ENGLISH);
-        DateFormat timeFormat = new SimpleDateFormat("hh:mma", Locale.ENGLISH);
-
-        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mma", Locale.ENGLISH);
+//        DateFormat dateFormat = new SimpleDateFormat("mm/dd/yy", Locale.ENGLISH);
+//        DateFormat timeFormat = new SimpleDateFormat("hh:mma", Locale.ENGLISH);
+//
+//        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mma", Locale.ENGLISH);
 
         if (name == "date")
         {
-            try
-            {
-                System.out.println("*************Parse Date***********************");
-                weatherDataPoint.date = dateFormat.parse(current.getValue());
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-                System.out.println("*************Exception Caught***********************");
-            }
+            dataPoint.date = current.getValue();
         }
         else if (name == "time")
         {
-            try
-            {
-                System.out.println("*************Parse Time***********************");
-//                weatherDataPoint.date = Format.parse(date + current.getValue());
-                weatherDataPoint.date = timeFormat.parse(current.getValue());
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-                System.out.println("*************Exception Caught***********************");
-            }
+            dataPoint.time = current.getValue();
         }
         else if (name == "temperature")
         {
-        
+            dataPoint.temperature = current.getValue();
         }
         else if (name == "humidity")
         {
-        
+            dataPoint.humidity = current.getValue();
         }
         else if (name == "barometer")
         {
-        
+            dataPoint.barometer = current.getValue();
         }
         else if (name == "windspeed")
         {
-        
+            dataPoint.windspeed = current.getValue();
         }
         else if (name == "winddirection")
         {
-        
+            dataPoint.winddirection = current.getValue();
         }
         else if (name == "windgust")
         {
-        
+            dataPoint.windgust = current.getValue();
         }
         else if (name == "windchill")
         {
-        
+            dataPoint.windchill = current.getValue();
         }
         else if (name == "heatindex")
         {
-        
+            dataPoint.heatindex = current.getValue();
         }
         else if (name == "uvindex")
         {
-        
+            dataPoint.uvindex = current.getValue();
         }
         else if (name == "rainfall")
         {
-        
+            dataPoint.rainfall = current.getValue();
         }
-        else 
+        else if (!iterator.hasNext())
         {
-            System.out.println(name + "Not Found");
+            System.out.println(name + " Not Found");
         }
 
-        System.out.println(weatherDataPoint.date);
 
         // recursively process each child node
         while ( iterator.hasNext() )
         {
             Element child = ( Element ) iterator.next();
-            FillDataPoint( child, depth + 1, weatherDataPoint );
+            FillDataPoint( child, depth + 1, dataPoint );
         }
     }
+
 
 
 
