@@ -2,5 +2,6 @@
 # Usage: runjdom javafile(no ext) xmlfile
 # JMW 160205
 
+rm -f *.class
 javac -cp .:jdom.jar $1.java
 java  -cp .:jdom.jar $1 $2

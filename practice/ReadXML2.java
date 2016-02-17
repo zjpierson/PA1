@@ -74,8 +74,8 @@ public class ReadXML2
             WeatherDataContainer dataPoint = new WeatherDataContainer();
 //            System.out.println("New!!!!*************************");
             Element child = ( Element ) iterator.next();
-            listChildren(child, depth + 1);
-//            FillDataPoint( child, depth + 1, dataPoint);
+//            listChildren(child, depth + 1);
+            FillDataPoint( child, depth + 1, dataPoint);
         }
     }
 
@@ -91,14 +91,34 @@ public class ReadXML2
         DateFormat dateFormat = new SimpleDateFormat("mm/dd/yy", Locale.ENGLISH);
         DateFormat timeFormat = new SimpleDateFormat("hh:mma", Locale.ENGLISH);
 
-        // print node name and leaf node value, indented one space per level in XML tree
+        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mma", Locale.ENGLISH);
+
         if (name == "date")
         {
-            weatherDataPoint.date = dateFormat.parse(current.getValue());
+            try
+            {
+                System.out.println("*************Parse Date***********************");
+                weatherDataPoint.date = dateFormat.parse(current.getValue());
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+                System.out.println("*************Exception Caught***********************");
+            }
         }
         else if (name == "time")
         {
-            weatherDataPoint.date = timeFormat.parse(current.getValue());
+            try
+            {
+                System.out.println("*************Parse Time***********************");
+//                weatherDataPoint.date = Format.parse(date + current.getValue());
+                weatherDataPoint.date = timeFormat.parse(current.getValue());
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+                System.out.println("*************Exception Caught***********************");
+            }
         }
         else if (name == "temperature")
         {
@@ -151,7 +171,6 @@ public class ReadXML2
         while ( iterator.hasNext() )
         {
             Element child = ( Element ) iterator.next();
-            System.out.println("************************************");
             FillDataPoint( child, depth + 1, weatherDataPoint );
         }
     }
