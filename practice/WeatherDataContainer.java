@@ -25,6 +25,33 @@ public class WeatherDataContainer
 
     public WeatherDataContainer()
     {
-        System.out.println("Called WeatherDataContainer Constructor!");
+    }
+
+    public String toString()
+    {
+        return "Date:            " + date + "\n" + 
+                "Temperature:    " + temp + "\n" + 
+                "Humidity:       " + humidity + "\n" + 
+                "Pressure:       " + pressure + "\n" + 
+                "Wind Speed:     " + windSpeed + "\n" + 
+                "Wind Direction: " + windDirection + "\n" + 
+                "Wind Gust:      " + windGust + "\n" + 
+                "Wind Chill:     " + windChill + "\n" + 
+                "Heat Index:     " + heatIndex + "\n" + 
+                "UV Index:       " + uvIndex + "\n" + 
+                "Rain Fall:      " + rainFall + "\n";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

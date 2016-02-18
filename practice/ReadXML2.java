@@ -78,12 +78,12 @@ public class ReadXML2
             weatherData.add(dataPoint.Convert());
         }
 
+        //Make sure structrue is being filled properly
         System.out.println();
         for(int i = 0; i < weatherData.size(); i++)
         {
-            System.out.println(weatherData.get(i).date);
+            System.out.println(weatherData.get(i));
         }
-        System.out.println();
     }
 
     // print XML tags and leaf node values
