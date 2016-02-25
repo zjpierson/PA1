@@ -22,37 +22,36 @@ import java.util.*;
 import java.util.ArrayList;
 import java.text.*;
 
-public class ParseWeatherData.java
+public class ParseWeatherData
 {
-    public ArrayList<WeatherDataContainer> WeatherData;
+    public WeatherList WeatherData;
 
     //Constructor
-    public static void ParseWeatherData( )
+    public ParseWeatherData( )
     {
-
+        this("2010-01.xml");
     }
 
-        ArrayList<WeatherDataContainer> weatherData = new ArrayList<WeatherDataContainer>();
+    public ParseWeatherData( String filename )
+    {
+        WeatherData = new WeatherList();
+        ParseFile(filename);
+    }
 
-        // check usage
-        if ( args.length == 0 )
-        {
-            System.out.println( "Usage: java -cp .:jdom.jar ReadXML2 file.xml" );
-            return;
-        }
-
+    public void ParseFile( String filename)
+    {
         // read and parse XML document
         SAXBuilder builder = new SAXBuilder();
         try
         {
-            Document doc = builder.build( args[0] );    // parse XML tags
+            Document doc = builder.build( filename );    // parse XML tags
             Element root = doc.getRootElement();        // get root of XML tree
-            FillWeatherData( root, 0, weatherData );                    // print info in XML tree
+            FillWeatherData( root, 0 );                    // print info in XML tree
         }
         // JDOMException indicates a well-formedness error
         catch ( JDOMException e )
         {
-            System.out.println( args[0] + " is not well-formed." );
+            System.out.println( filename + " is not well-formed." );
             System.out.println( e.getMessage() );
         }
         catch ( IOException e )
@@ -61,52 +60,29 @@ public class ParseWeatherData.java
         }
     }
 
-    public static void FillWeatherData( Element current, int depth, ArrayList<WeatherDataContainer> weatherData )
+    public void FillWeatherData( Element current, int depth)
     {
         // get children of current node
         List children = current.getChildren();
         Iterator iterator = children.iterator();
 
-        if ( !iterator.hasNext() )
-        {
-            System.out.print( " = " + current.getValue() );
-        }
-        System.out.println();
-
         // recursively process each child node
         while ( iterator.hasNext() )
         {
-//            WeatherDataContainer weatherDataPoint = new WeatherDataContainer();
             WeatherConverter dataPoint = new WeatherConverter();
             Element child = ( Element ) iterator.next();
             FillDataPoint( child, depth + 1, dataPoint);
-            weatherData.add(dataPoint.Convert());
-        }
-
-        //Make sure structrue is being filled properly
-        System.out.println();
-        for(int i = 0; i < weatherData.size(); i++)
-        {
-            System.out.println(weatherData.get(i));
+            WeatherData.add(dataPoint.Convert());
         }
     }
 
     // print XML tags and leaf node values
-    public static void FillDataPoint( Element current, int depth, WeatherConverter dataPoint )
+    public void FillDataPoint( Element current, int depth, WeatherConverter dataPoint )
     {
         // get children of current node
         List children = current.getChildren();
         Iterator iterator = children.iterator();
         String name = current.getName();
-        System.out.print(name);
-        if ( !iterator.hasNext() )
-            System.out.print( " = " + current.getValue() );
-        System.out.println();
-
-//        DateFormat dateFormat = new SimpleDateFormat("mm/dd/yy", Locale.ENGLISH);
-//        DateFormat timeFormat = new SimpleDateFormat("hh:mma", Locale.ENGLISH);
-//
-//        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mma", Locale.ENGLISH);
 
         if (name == "date")
         {
@@ -161,54 +137,11 @@ public class ParseWeatherData.java
             System.out.println(name + " Not Found");
         }
 
-
         // recursively process each child node
         while ( iterator.hasNext() )
         {
             Element child = ( Element ) iterator.next();
             FillDataPoint( child, depth + 1, dataPoint );
-        }
-    }
-
-
-
-
-
-
-
-
-    /*
-     *---------------------------------------------------------
-     */
-
-    // print XML tags and leaf node values
-    public static void listChildren( Element current, int depth)
-    {
-    // get children of current node
-        List children = current.getChildren();
-        Iterator iterator = children.iterator();
-
-        // print node name and leaf node value, indented one space per level in XML tree
-        printSpaces( depth );
-        System.out.print( current.getName() );
-        if ( !iterator.hasNext() )
-            System.out.print( " = " + current.getValue() );
-        System.out.println();
-
-        // recursively process each child node
-        while ( iterator.hasNext() )
-        {
-            Element child = ( Element ) iterator.next();
-            listChildren( child, depth + 1 );
-        }
-    }
-
-    // indent to show hierarchical structure of XML tree
-    private static void printSpaces( int n )
-    {
-        for ( int i = 0; i < n; i++ )
-        {
-            System.out.print( " " );
         }
     }
 }
