@@ -1,4 +1,4 @@
-/**
+/*
  * WeatherApp.java
  *
  * Weather history GUI with a custom inner panel. The main frame implements an
@@ -26,7 +26,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
 
-/**
+/*
  * WeatherApp class that extends JFrame and implements the ActionListener
  */
 public class WeatherApp extends JFrame implements ActionListener
@@ -35,28 +35,32 @@ public class WeatherApp extends JFrame implements ActionListener
     public JRadioButton weeklyFilter; //Weekly radio button
     public JRadioButton monthlyFilter; //Monthly radio button
     public JRadioButton yearlyFilter; //Yearly radio button
-    public Statistics stats = new Statistics();
+    //public Statistics stats = new Statistics();
 
-    /**
+    /*
+     * WeatherApp constructor: Sets minimum size and calls InitComponents.
      */
     public WeatherApp()
     {
         super("Weather History"); // Call JFrame constructor with a title
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Exit on close
-        setMinimumSize( new Dimension(400, 600) );
+        setMinimumSize( new Dimension(400, 600) ); // Set minimum width and height
 
         InitComponents(); // Build GUI and set up events
     }
 
+    /*
+     * InitComponents: Creates GUI and packs it. Also sets up menu events.
+     */
     private void InitComponents()
     {
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar( menuBar ); //Set the frames' menu bar
+        JMenuBar menuBar = new JMenuBar(); // Main menu bar
 
-        //Calculations Menu
-        JMenu calcMenu = new JMenu("Calculate");
+        // Calculations Menu
+        JMenu calcMenu = new JMenu("Calculate"); // Create calculations menu
 
+	// Create average temperature menu item and provide action listener
         JMenuItem avgTempItem = new JMenuItem("Average Temperature");
         avgTempItem.addActionListener( new ActionListener()
         {
@@ -68,8 +72,9 @@ public class WeatherApp extends JFrame implements ActionListener
                                               JOptionPane.INFORMATION_MESSAGE);*/
             }
         } );
-        calcMenu.add(avgTempItem); //Add avgTemp to calculation menu
+        calcMenu.add(avgTempItem); // Add avgTemp to calculation menu
 
+	// Create max/min temp menu item and provide action listener
         JMenuItem maxMinTempItem = new JMenuItem("Max & Min Temperatures");
         maxMinTempItem.addActionListener( new ActionListener()
         {
@@ -78,8 +83,9 @@ public class WeatherApp extends JFrame implements ActionListener
                 //call Samantha's stuff
             }
         } );
-        calcMenu.add(maxMinTempItem); //Add avgTemp to calculation menu
+        calcMenu.add(maxMinTempItem); // Add maxMinTemp to calculation menu
 
+	// Create average wind speed menu item and provide action listener
         JMenuItem avgWindSpdItem = new JMenuItem("Average Wind Speed");
         avgWindSpdItem.addActionListener( new ActionListener()
         {
@@ -88,9 +94,10 @@ public class WeatherApp extends JFrame implements ActionListener
                 //call Samantha's stuff
             }
         } );
-        calcMenu.add(avgWindSpdItem); //Add avgTemp to calculation menu
+        calcMenu.add(avgWindSpdItem); //Add avgWindSpd to calculation menu
 
-        JMenuItem maxGustItem = new JMenuItem("Max Wind Gust");
+        // Create max gust menu item and provide action listener
+	JMenuItem maxGustItem = new JMenuItem("Max Wind Gust");
         maxGustItem.addActionListener( new ActionListener()
         {
             public void actionPerformed( ActionEvent ae )
@@ -98,18 +105,9 @@ public class WeatherApp extends JFrame implements ActionListener
                 //call Samantha's stuff
             }
         } );
-        calcMenu.add(maxGustItem); //Add avgTemp to calculation menu
+        calcMenu.add(maxGustItem); //Add maxGust to calculation menu
 
-        JMenuItem avgTemp = new JMenuItem("Average Temperature");
-        avgTemp.addActionListener( new ActionListener()
-        {
-            public void actionPerformed( ActionEvent ae )
-            {
-                //call Samantha's stuff
-            }
-        } );
-        calcMenu.add(avgTemp); //Add avgTemp to calculation menu
-
+	// Create prevailing wind direction menu item and provide action listener
         JMenuItem windDirItem = new JMenuItem("Prevailing Wind Direction");
         windDirItem.addActionListener( new ActionListener()
         {
@@ -118,8 +116,9 @@ public class WeatherApp extends JFrame implements ActionListener
                 //call Samantha's stuff
             }
         } );
-        calcMenu.add(windDirItem); //Add avgTemp to calculation menu
+        calcMenu.add(windDirItem); //Add windDir to calculation menu
 
+	// Create total rainfall menu item and provide action listener
         JMenuItem rainfallItem = new JMenuItem("Total Rainfall");
         rainfallItem.addActionListener( new ActionListener()
         {
@@ -128,12 +127,13 @@ public class WeatherApp extends JFrame implements ActionListener
                 //call Samantha's stuff
             }
         } );
-        calcMenu.add(rainfallItem); //Add avgTemp to calculation menu
+        calcMenu.add(rainfallItem); //Add rainfall to calculation menu
         menuBar.add(calcMenu); //Add calcMenu to menu bar
 
         //Help Menu
-        JMenu helpMenu = new JMenu("Help");
-
+        JMenu helpMenu = new JMenu("Help"); // Create help menu
+	
+	// Create help menu item and provide action listener
         JMenuItem helpItem = new JMenuItem("Help");
         helpItem.addActionListener( new ActionListener()
         {
@@ -147,6 +147,7 @@ public class WeatherApp extends JFrame implements ActionListener
         } );
         helpMenu.add(helpItem); //Add help to help menu
 
+	// Create about menu item and provide action listener
         JMenuItem aboutItem = new JMenuItem("About Application");
         aboutItem.addActionListener( new ActionListener()
         {
@@ -170,36 +171,35 @@ public class WeatherApp extends JFrame implements ActionListener
             }
         } );
         helpMenu.add(aboutItem); //Add about to help menu
-
         menuBar.add(helpMenu); //Add help menu to menu bar
-
-	    setJMenuBar(menuBar); //Set the frame menu bar
+	setJMenuBar(menuBar); //Set the frame menu bar
 
         //Create panel with radio buttons
-        JPanel radioBtnPanel = new JPanel();
+        JPanel radioBtnPanel = new JPanel(); // Create panel for buttons and label
         ButtonGroup filterBtnGroup = new ButtonGroup();
-        dailyFilter = new JRadioButton("Daily");
-        weeklyFilter = new JRadioButton("Weekly");
-        monthlyFilter = new JRadioButton("Monthly");
-        yearlyFilter = new JRadioButton("Yearly");
+        dailyFilter = new JRadioButton("Daily"); // Daily radio button
+        weeklyFilter = new JRadioButton("Weekly"); // Weekly radio button
+        monthlyFilter = new JRadioButton("Monthly"); // Monthly radio button
+        yearlyFilter = new JRadioButton("Yearly"); // Yearly radio button
 
         dailyFilter.setActionCommand("Daily");
-        dailyFilter.setSelected(true);
+        dailyFilter.setSelected(true); // Make Daily automatically selected
         dailyFilter.addActionListener(this);
-        filterBtnGroup.add(dailyFilter);
+        filterBtnGroup.add(dailyFilter); // Add daily to button group
         
         weeklyFilter.setActionCommand("Weekly");
         weeklyFilter.addActionListener(this);
-        filterBtnGroup.add(weeklyFilter);
+        filterBtnGroup.add(weeklyFilter); // Add weekly to button group
 
         monthlyFilter.setActionCommand("Monthly");
         monthlyFilter.addActionListener(this);
-        filterBtnGroup.add(monthlyFilter);
+        filterBtnGroup.add(monthlyFilter); // Add monthly to button group
 
         yearlyFilter.setActionCommand("Yearly");
         yearlyFilter.addActionListener(this);
-        filterBtnGroup.add(yearlyFilter);
+        filterBtnGroup.add(yearlyFilter); // Add monthly to button group
 
+	// Add radio buttons to panel
         radioBtnPanel.add(dailyFilter);
         radioBtnPanel.add(weeklyFilter);
         radioBtnPanel.add(monthlyFilter);
