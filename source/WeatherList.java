@@ -1,5 +1,7 @@
 import java.util.*;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.*;
+import org.jfree.data.time.*;
 
 public class WeatherList extends ArrayList<WeatherDataContainer>
 {
@@ -13,17 +15,20 @@ public class WeatherList extends ArrayList<WeatherDataContainer>
     }
 
 
-    public DefaultCategoryDataset getTemperatureData()
+    public TimeSeriesCollection getTemperatureData()
     {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-        WeatherDataContainer weatherTemp;
+        TimeSeries Temperature = new TimeSeries("Temperature", Date.class);
+//        XYSeries Temperature = new XYSeries("Temperature");
+        TimeSeriesCollection dataset = new TimeSeriesCollection(Temperature);
+//        XYSeriesCollection dataset = new XYSeriesCollection(Temperature);
 
         for(int i = 0; i < super.size(); i++)
         {
-            weatherTemp = super.get(i);
-            dataset.addValue(weatherTemp.temp, "Temperature", Integer.toString(i));
+            WeatherDataContainer weatherTemp = super.get(i);
+            Temperature.add(weatherTemp.date, weatherTemp.temp);
         }
 
         return dataset;
+
     }
 }

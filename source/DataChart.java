@@ -13,7 +13,7 @@ public class DataChart extends JFreeChart
     {
         super();
 
-        this = ChartFactory.createLineChart(title, categoryAxisLable, valueAxisLable, createDataset(), orientation, legend, tooltips, urls);
+//        this = ChartFactory.createLineChart(title, categoryAxisLable, valueAxisLable, createDataset(), orientation, legend, tooltips, urls);
     }
 
     public DataChart(String type)
