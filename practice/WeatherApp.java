@@ -149,15 +149,7 @@ public class WeatherApp extends JFrame
 
         JPanel temperaturePane = new JPanel();
 
-        TimeSeriesCollection temperatureDataset = new TimeSeriesCollection();
-
-        JFreeChart chartData = ChartFactory.createTimeSeriesChart( "Temperature", "CategoryAxisLable", "ValueAxisLable", temperatureDataset, true, true, false);
-
-        XYPlot plot = chartData.getXYPlot();
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("mm/dd"));
-
-        plot.setDataset(dataReader.WeatherData.getTemperatureData());
+        JFreeChart chartData = ChartFactory.createTimeSeriesChart( "Temperature", "CategoryAxisLable", "ValueAxisLable", dataReader.WeatherData.getTemperatureData(), true, true, false);
 
         ChartPanel chartPanel = new ChartPanel( chartData );
         chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );

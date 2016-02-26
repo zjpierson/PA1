@@ -17,18 +17,15 @@ public class WeatherList extends ArrayList<WeatherDataContainer>
 
     public TimeSeriesCollection getTemperatureData()
     {
-        TimeSeries Temperature = new TimeSeries("Temperature", Date.class);
-//        XYSeries Temperature = new XYSeries("Temperature");
-        TimeSeriesCollection dataset = new TimeSeriesCollection(Temperature);
-//        XYSeriesCollection dataset = new XYSeriesCollection(Temperature);
+        TimeSeries temperature = new TimeSeries("temperature");
 
         for(int i = 0; i < super.size(); i++)
         {
             WeatherDataContainer weatherTemp = super.get(i);
-            Temperature.add(weatherTemp.date, weatherTemp.temp);
+            temperature.add(new Day(weatherTemp.date), weatherTemp.temp);
         }
 
-        return dataset;
+        return new TimeSeriesCollection(temperature);
 
     }
 }
