@@ -2,19 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
-import java.text.*;
-
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.*;
-import org.jfree.chart.axis.*;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.*;
-import org.jfree.data.time.*;
 
 public class WeatherApp extends JFrame
 {
@@ -142,30 +129,6 @@ public class WeatherApp extends JFrame
         helpMenu.add(aboutItem); //Add about to help menu
 
         menuBar.add(helpMenu);
-
-//------------------------ Temperature LineChart --------------------------//        
-
-        ParseWeatherData dataReader = new ParseWeatherData("2010-01.xml");
-
-        JPanel temperaturePane = new JPanel();
-
-        TimeSeriesCollection temperatureDataset = new TimeSeriesCollection();
-
-        JFreeChart chartData = ChartFactory.createTimeSeriesChart( "Temperature", "CategoryAxisLable", "ValueAxisLable", temperatureDataset, true, true, false);
-
-        XYPlot plot = chartData.getXYPlot();
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("mm/dd"));
-
-        plot.setDataset(dataReader.WeatherData.getTemperatureData());
-
-        ChartPanel chartPanel = new ChartPanel( chartData );
-        chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-
-        temperaturePane.add(chartPanel);
-        add(temperaturePane);
-
-//--------------------------------- END ----------------------------------//        
 
 
         pack(); // Package the view
