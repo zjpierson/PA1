@@ -253,10 +253,11 @@ public class WeatherApp extends JFrame implements ActionListener
 class MainPanel extends JPanel
 {
     public JLabel dateLabel;
-    public JPanel tempHumidPanel;
+    public JPanel tempPanel;
     public JPanel precipPanel;
     public JPanel uvPanel;
     public JPanel pressurePanel;
+    public JPanel humidPanel;
     public JPanel windPanel;
 
 	public MainPanel()
@@ -269,10 +270,10 @@ class MainPanel extends JPanel
     {
         //left arrow button + date label + right arrow button???? or combobox??
 
-        //temp/humidity panel
-        tempHumidPanel = new JPanel();
-        tempHumidPanel.setOpaque(true);
-        add(tempHumidPanel);
+        //temp panel
+        tempPanel = new JPanel();
+        tempPanel.setOpaque(true);
+        add(tempPanel);
 
         //precipitation panel
         precipPanel = new JPanel();
@@ -284,9 +285,12 @@ class MainPanel extends JPanel
         uvPanel.setOpaque(true);
         pressurePanel = new JPanel();
         pressurePanel.setOpaque(true);
+	humidPanel = new JPanel();
+	humidPanel.setOpaque(true);
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("UV Index", null, uvPanel);
         tabbedPane.addTab("Barometric Pressure", null, pressurePanel);
+	tabbedPane.addTab("Humidity", null, humidPanel);
         add(tabbedPane);
 
         //wind speed panel
