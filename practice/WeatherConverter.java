@@ -32,10 +32,11 @@ public class WeatherConverter
             return null;
         }
 
-        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mma", Locale.ENGLISH);
+        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mmaa", Locale.ENGLISH);
 
         try
         {
+            time = time.trim() + "M";
             weatherPoint.date = Format.parse(date + time);
         }
         catch (Exception e)

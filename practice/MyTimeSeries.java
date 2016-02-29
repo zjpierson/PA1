@@ -2,9 +2,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
 import org.jfree.data.general.SeriesException; 
-import org.jfree.data.time.Second; 
-import org.jfree.data.time.TimeSeries; 
-import org.jfree.data.time.TimeSeriesCollection; 
+import org.jfree.data.time.*; 
 import org.jfree.data.xy.XYDataset; 
 import org.jfree.ui.ApplicationFrame; 
 import org.jfree.ui.RefineryUtilities;
@@ -25,8 +23,6 @@ public class MyTimeSeries extends ApplicationFrame
    private XYDataset createDataset( ) 
    {
       TimeSeries series = new TimeSeries( "Random Data" );         
-//      Second current = new Second( );         
-//      double value = 100.0;         
       
       ParseWeatherData dataReader = new ParseWeatherData("2010-01.xml");
       WeatherList data = dataReader.WeatherData;
@@ -35,15 +31,11 @@ public class MyTimeSeries extends ApplicationFrame
       {
          try 
          {
-             System.out.println(data.get(i).date);
-//            value = value + Math.random( ) - 0.5;                 
-//            series.add(current, new Double( value ) );                 
-//            series.add(new Day(data.date), data.temp );                 
-//            current = ( Second ) current.next( ); 
+            series.add(new Minute(data.get(i).date), data.get(i).temp );                 
          }
          catch ( SeriesException e ) 
          {
-            System.err.println("Error adding to series");
+            System.err.println("Error adding " + data.get(i).date + " to series");
          }
       }
 
@@ -58,7 +50,7 @@ public class MyTimeSeries extends ApplicationFrame
       "Value",              
       dataset,             
       false,              
-      false,              
+      true,              
       false);
    }
 
