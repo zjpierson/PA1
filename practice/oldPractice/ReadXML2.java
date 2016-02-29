@@ -1,5 +1,4 @@
 /*
-
     **** ReadXML2.java - read and dump contents of an XML file ****
 
 Illustrates use of JDOM to parse an XML file.
