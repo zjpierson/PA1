@@ -25,15 +25,21 @@ public class MyTimeSeries extends ApplicationFrame
    private XYDataset createDataset( ) 
    {
       TimeSeries series = new TimeSeries( "Random Data" );         
-      Second current = new Second( );         
-      double value = 100.0;         
-      for (int i = 0; i < 4000; i++)    
+//      Second current = new Second( );         
+//      double value = 100.0;         
+      
+      ParseWeatherData dataReader = new ParseWeatherData("2010-01.xml");
+      WeatherList data = dataReader.WeatherData;
+
+      for (int i = 0; i < data.size(); i++)    
       {
          try 
          {
-            value = value + Math.random( ) - 0.5;                 
-            series.add(current, new Double( value ) );                 
-            current = ( Second ) current.next( ); 
+             System.out.println(data.get(i).date);
+//            value = value + Math.random( ) - 0.5;                 
+//            series.add(current, new Double( value ) );                 
+//            series.add(new Day(data.date), data.temp );                 
+//            current = ( Second ) current.next( ); 
          }
          catch ( SeriesException e ) 
          {
