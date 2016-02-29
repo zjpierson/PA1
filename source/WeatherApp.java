@@ -24,6 +24,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.util.*;
 import java.util.Calendar;
@@ -43,6 +44,7 @@ public class WeatherApp extends JFrame implements ActionListener
     public JRadioButton monthlyFilter; //Monthly radio button
     public JRadioButton yearlyFilter; //Yearly radio button
     public JDatePickerImpl datePicker;
+    public Date currentDate;
     //public Statistics stats = new Statistics();
 
     /*
@@ -237,7 +239,38 @@ public class WeatherApp extends JFrame implements ActionListener
         topPanel.add(yearlyFilter);
         topPanel.setOpaque(true);
 
-        UtilDateModel model = new UtilDateModel();
+        // Set start day to 7/11/2012
+        UtilDateModel model = new UtilDateModel(new Date(112, 6, 11));
+        model.addChangeListener(new ChangeListener()
+        {
+            public void stateChanged( ChangeEvent e)
+            {
+                Date selectedDate = (Date) datePicker.getModel().getValue();
+
+                if (selectedDate != null)
+                {
+                    currentDate = selectedDate;
+                    String selectedBtn = filterBtnGroup.getSelection().getActionCommand();
+
+                    if (selectedBtn == "Daily")
+                    {
+                        //do daily things
+                    }
+                    if (selectedBtn == "Weekly")
+                    {
+                        //do weekly things
+                    }
+                    if (selectedBtn == "Monthly")
+                    {
+                        //do monthly things
+                    }
+                    if (selectedBtn == "Yearly")
+                    {
+                        //do yearly things
+                    }
+                }
+            }
+        });
 
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -261,7 +294,7 @@ public class WeatherApp extends JFrame implements ActionListener
 
     public void actionPerformed(ActionEvent ae)
     {
-        //Date selectedDate = (Date) datePicker.getModel().getValue();
+        Date selectedDate = (Date) datePicker.getModel().getValue();
 
         if ( ae.getSource() == dailyFilter )
         {
