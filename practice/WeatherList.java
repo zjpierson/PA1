@@ -18,7 +18,7 @@ public class WeatherList extends ArrayList<WeatherDataContainer>
 
     public TimeSeriesCollection getTemperatureData()
     {
-        TimeSeries temperature = new TimeSeries("temperature");
+        TimeSeries temperature = new TimeSeries("Temperature");
 
         for(int i = 0; i < super.size(); i++)
         {

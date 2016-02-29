@@ -50,7 +50,7 @@ public class MyTimeSeries extends ApplicationFrame
       "Value",              
       dataset,             
       false,              
-      false,              
+      true,              
       false);
    }
 
