@@ -30,18 +30,11 @@ public class TempGraph
             return;
         }
 
-//        WeatherList data = new WeatherList(dataReader.WeatherData);
-//
-//        if( data == null)
-//        {
-//            System.out.println("data is null!");
-//            return;
-//        }
-
+        System.out.println("Size after call: " + dataReader.WeatherData.size());
 
         for(int i = 0; i < dataReader.WeatherData.size(); i++)
         {
-            System.out.println(dataReader.WeatherData.get(i));
+            System.out.println(dataReader.WeatherData.get(i).date);
         }
     }
 

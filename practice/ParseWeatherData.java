@@ -31,6 +31,7 @@ public class ParseWeatherData
     //Constructor
     public ParseWeatherData(String dataDirectory)
     {
+        WeatherData = new WeatherList();
         _DataPath = dataDirectory;
         _DataFiles = new ArrayList<String>();
 
@@ -140,13 +141,17 @@ public class ParseWeatherData
         Iterator iterator = children.iterator();
         String name = current.getName();
 
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yy");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
 
         if (name == "date")
         {
-            if(current.getValue() != format.format(startDate))
+            if(startDate != null)
             {
-                return false;
+                String value = current.getValue().replaceAll("\\s", "");
+                if(!value.equals(format.format(startDate)))
+                {
+                    return false;
+                }
             }
 
             dataPoint.date = current.getValue();
