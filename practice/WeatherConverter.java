@@ -44,16 +44,56 @@ public class WeatherConverter
             System.out.println(e.getMessage());
         }
 
-        weatherPoint.temp = Double.parseDouble(temperature);
-        weatherPoint.humidity = Double.parseDouble(humidity);
-        weatherPoint.pressure = Double.parseDouble(barometer);
-        weatherPoint.windSpeed = Double.parseDouble(windspeed);
-        weatherPoint.windDirection = winddirection;
-        weatherPoint.windGust = Double.parseDouble(windgust);
-        weatherPoint.windChill = Double.parseDouble(windchill);
-        weatherPoint.heatIndex = Double.parseDouble(heatindex);
-        weatherPoint.uvIndex = Double.parseDouble(uvindex);
-        weatherPoint.rainFall = Double.parseDouble(rainfall);
+        if(temperature != null)
+        {
+            weatherPoint.temp = Double.parseDouble(temperature);
+        }
+
+        if(humidity != null)
+        {
+            weatherPoint.humidity = Double.parseDouble(humidity);
+        }
+
+        if(barometer != null)
+        {
+            weatherPoint.pressure = Double.parseDouble(barometer);
+        }
+
+        if(windspeed != null)
+        {
+            weatherPoint.windSpeed = Double.parseDouble(windspeed);
+        }
+
+        if(winddirection != null)
+        {
+            weatherPoint.windDirection = winddirection;
+        }
+
+        if(windgust != null)
+        {
+            weatherPoint.windGust = Double.parseDouble(windgust);
+        }
+
+        if(windchill != null)
+        {
+            weatherPoint.windChill = Double.parseDouble(windchill);
+        }
+
+        if(heatindex != null)
+        {
+            weatherPoint.heatIndex = Double.parseDouble(heatindex);
+        }
+
+        if(uvindex != null)
+        {
+            weatherPoint.uvIndex = Double.parseDouble(uvindex);
+        }
+
+        if(rainfall != null)
+        {
+            weatherPoint.rainFall = Double.parseDouble(rainfall);
+        }
+
 
         return weatherPoint;
     }
