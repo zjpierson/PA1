@@ -32,7 +32,7 @@ public class WeatherConverter
             return null;
         }
 
-        DateFormat Format = new SimpleDateFormat("mm/dd/yy hh:mmaa", Locale.ENGLISH);
+        DateFormat Format = new SimpleDateFormat("MM/dd/yy hh:mmaa", Locale.ENGLISH);
 
         try
         {

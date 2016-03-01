@@ -145,7 +145,13 @@ public class WeatherApp extends JFrame
 
 //------------------------ Temperature LineChart --------------------------//        
 
-        ParseWeatherData dataReader = new ParseWeatherData("2010-01.xml");
+//        ParseWeatherData dataReader = new ParseWeatherData("2010-01.xml");
+        ParseWeatherData dataReader = new ParseWeatherData();
+        Calendar cal = Calendar.getInstance();
+        cal.set(2013, 1, 20);
+
+        dataReader.GetYear(cal.getTime());
+        System.out.println("Size after call: " + dataReader.WeatherData.size());
 
         JPanel temperaturePane = new JPanel();
 

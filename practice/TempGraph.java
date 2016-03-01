@@ -22,20 +22,23 @@ public class TempGraph
     {
         ParseWeatherData dataReader = new ParseWeatherData();
         Calendar cal = Calendar.getInstance();
-        cal.set(2013, 0, 23);
+        cal.set(2013, 1, 20);
 
-        if(!dataReader.GetDay(cal.getTime()))
+        if(!dataReader.GetYear(cal.getTime()))
         {
             System.out.println("GetDay failed");
             return;
         }
 
-        System.out.println("Size after call: " + dataReader.WeatherData.size());
 
-//        for(int i = 0; i < dataReader.WeatherData.size(); i++)
+
+
+//        for(int i = 0; i < dataReader.WeatherData.size(); i += 10)
 //        {
 //            System.out.println(dataReader.WeatherData.get(i).date);
 //        }
+
+        System.out.println("Size after call: " + dataReader.WeatherData.size());
     }
 
     public static void main( String [] args )

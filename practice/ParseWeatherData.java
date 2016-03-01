@@ -59,6 +59,14 @@ public class ParseWeatherData
             return false;
         }
 
+        Calendar startMonth = Calendar.getInstance();
+        startMonth.setTime(day);
+        startMonth.set(Calendar.DAY_OF_MONTH, 1);
+
+        Calendar endMonth = Calendar.getInstance();
+        endMonth.setTime(day);
+        endMonth.set(Calendar.DAY_OF_MONTH, 28);
+
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(day);
         startDate.set(Calendar.HOUR_OF_DAY, 0);
@@ -71,9 +79,8 @@ public class ParseWeatherData
         endDate.set(Calendar.MINUTE, 59);
         endDate.set(Calendar.SECOND, 59);
 
-        System.out.println(startDate.getTime() + " -> " + endDate.getTime());
         //figure out which files to use
-        ArrayList<String> files = FindFiles(startDate.getTime(), endDate.getTime());
+        ArrayList<String> files = FindFiles(startMonth.getTime(), endMonth.getTime());
 
         //Parse files for the day and updates the WeatherData
         ParseFile(files, startDate.getTime(), endDate.getTime());
@@ -88,6 +95,14 @@ public class ParseWeatherData
             return false;
         }
 
+        Calendar startMonth = Calendar.getInstance();
+        startMonth.setTime(week);
+        startMonth.set(Calendar.DAY_OF_MONTH, 1);
+
+        Calendar endMonth = Calendar.getInstance();
+        endMonth.setTime(week);
+        endMonth.set(Calendar.DAY_OF_MONTH, 28);
+
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(week);
         startDate.set(Calendar.DAY_OF_WEEK, 0);
@@ -97,6 +112,32 @@ public class ParseWeatherData
         endDate.setTime(week);
         endDate.set(Calendar.DAY_OF_WEEK, 6);
         endDate.set(Calendar.HOUR_OF_DAY, 23);
+
+        //figure out which files to use
+        ArrayList<String> files = FindFiles(startMonth.getTime(), endMonth.getTime());
+
+        //Parse files for the day and updates the WeatherData
+        ParseFile(files, startDate.getTime(), endDate.getTime());
+
+        return true;
+    }
+
+    public boolean GetMonth(Date month)
+    {
+        if(month == null)
+        {
+            return false;
+        }
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(month);
+        startDate.set(Calendar.MONTH, 0);
+        startDate.set(Calendar.DAY_OF_MONTH, 0);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.setTime(month);
+        endDate.set(Calendar.MONTH, 11);
+        endDate.set(Calendar.DAY_OF_MONTH, 28);
 
         //figure out which files to use
         ArrayList<String> files = FindFiles(startDate.getTime(), endDate.getTime());
@@ -122,10 +163,12 @@ public class ParseWeatherData
         Calendar endDate = Calendar.getInstance();
         endDate.setTime(year);
         endDate.set(Calendar.MONTH, 11);
-        endDate.set(Calendar.DAY_OF_MONTH, 28);
+        endDate.set(Calendar.DAY_OF_MONTH, 31);
 
         //figure out which files to use
         ArrayList<String> files = FindFiles(startDate.getTime(), endDate.getTime());
+
+        System.out.println(startDate.getTime() + " -> " + endDate.getTime());
 
         //Parse files for the day and updates the WeatherData
         ParseFile(files, startDate.getTime(), endDate.getTime());
@@ -136,7 +179,6 @@ public class ParseWeatherData
     private ArrayList<String> FindFiles(Date startDate, Date endDate)
     {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         ArrayList<String> fileList = new ArrayList<String>();
         Date currentDate;
 
@@ -145,7 +187,6 @@ public class ParseWeatherData
             try
             {
                 currentDate = format.parse(_DataFiles.get(i).replace(".xml", "-12"));
-//                currentDate = format.parse(_DataFiles.get(i));
             }
             catch (Exception e)
             {
@@ -153,7 +194,7 @@ public class ParseWeatherData
                 return fileList;
             }
 
-            if(currentDate.after(endDate) || currentDate.before(startDate))
+            if(currentDate.before(startDate) || currentDate.after(endDate))
             {
                 continue;
             }
@@ -244,7 +285,8 @@ public class ParseWeatherData
                 return false;
             }
 
-            if(currentDate.after(endDate) || currentDate.before(startDate))
+
+            if(currentDate.before(startDate) || currentDate.after(endDate))
             {
                 return false;
             }
