@@ -17,7 +17,9 @@
  *  Feb. 25, 2016   Set up for action events and ready for graphs
  *                  Did Commenting
  *  Feb. 26, 2016   Commenting
- *  Feb. 28, 2016   Finished putting everything together and submitted
+ *  Feb. 28, 2016   More commenting. Started integrating Sam's code
+ *  Feb. 29, 2016   More integration...waiting on Sam's code
+ *  Mar.  1, 2016   Finished integration and submitted
  */
 
 // Import java class libraries
@@ -173,8 +175,21 @@ public class WeatherApp extends JFrame implements ActionListener
             public void actionPerformed( ActionEvent ae )
             {
                 // Display dialog with help message
-                JOptionPane.showMessageDialog(null, "Here I will give help as to how"
-                                              + " a person uses this program...",
+                JOptionPane.showMessageDialog(null, "To view calculations for the"
+					      + " current day, week, month, or"
+					      + " year:\n\tClick on Calculate menu"
+					      + "\n\tChoose the calculation you "
+					      + "wish to see\nTo view different "
+					      + "data sets:\n\tChoose daily, "
+					      + "weekly, monthly, or yearly\n\t"
+                                              + "Select the date that you wish to "
+					      + "view, or is in the week/month/year"
+					      + " you wish to view\nThe graphs"
+					      + " available to view are(from top"
+					      + " to bottom):\n\tTemperature\n\t"
+					      + "Precipitation\n\tUV Index, "
+					      + "Barometric Pressure, & Humidity"
+					      + "(in a tabbed panel)\n\tWind Direction",
                                               "Help", JOptionPane.INFORMATION_MESSAGE);
             }
         } );
