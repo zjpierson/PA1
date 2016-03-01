@@ -22,9 +22,9 @@ public class TempGraph
     {
         ParseWeatherData dataReader = new ParseWeatherData();
         Calendar cal = Calendar.getInstance();
-        cal.set(2015, 0, 23);
+        cal.set(2013, 0, 23);
 
-        if(!dataReader.GetYear(cal.getTime()))
+        if(!dataReader.GetDay(cal.getTime()))
         {
             System.out.println("GetDay failed");
             return;

@@ -71,6 +71,7 @@ public class ParseWeatherData
         endDate.set(Calendar.MINUTE, 59);
         endDate.set(Calendar.SECOND, 59);
 
+        System.out.println(startDate.getTime() + " -> " + endDate.getTime());
         //figure out which files to use
         ArrayList<String> files = FindFiles(startDate.getTime(), endDate.getTime());
 
@@ -82,20 +83,20 @@ public class ParseWeatherData
 
     public boolean GetWeek(Date week)
     {
-        if(year == null)
+        if(week == null)
         {
             return false;
         }
 
         Calendar startDate = Calendar.getInstance();
-        startDate.setTime(year);
-        startDate.set(Calendar.MONTH, 0);
-        startDate.set(Calendar.DAY_OF_MONTH, 0);
+        startDate.setTime(week);
+        startDate.set(Calendar.DAY_OF_WEEK, 0);
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
 
         Calendar endDate = Calendar.getInstance();
-        endDate.setTime(year);
-        endDate.set(Calendar.MONTH, 11);
-        endDate.set(Calendar.DAY_OF_MONTH, 28);
+        endDate.setTime(week);
+        endDate.set(Calendar.DAY_OF_WEEK, 6);
+        endDate.set(Calendar.HOUR_OF_DAY, 23);
 
         //figure out which files to use
         ArrayList<String> files = FindFiles(startDate.getTime(), endDate.getTime());
@@ -135,6 +136,7 @@ public class ParseWeatherData
     private ArrayList<String> FindFiles(Date startDate, Date endDate)
     {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         ArrayList<String> fileList = new ArrayList<String>();
         Date currentDate;
 
@@ -143,6 +145,7 @@ public class ParseWeatherData
             try
             {
                 currentDate = format.parse(_DataFiles.get(i).replace(".xml", "-12"));
+//                currentDate = format.parse(_DataFiles.get(i));
             }
             catch (Exception e)
             {
