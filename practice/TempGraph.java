@@ -39,9 +39,9 @@ public class TempGraph
 //        }
 
 
-        for(int i = 0; i < data.size(); i++)
+        for(int i = 0; i < dataReader.WeatherData.size(); i++)
         {
-            System.out.println(data.get(i));
+            System.out.println(dataReader.WeatherData.get(i));
         }
     }
 
