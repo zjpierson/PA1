@@ -46,8 +46,10 @@ public class WeatherApp extends JFrame implements ActionListener
     public JRadioButton monthlyFilter; //Monthly radio button
     public JRadioButton yearlyFilter; //Yearly radio button
     public JDatePickerImpl datePicker;
+    public MainPanel mainPanel;
     public Date currentDate;
-    //public Statistics stats = new Statistics();
+    public Statistics stats = new Statistics();
+    public ParseWeatherData parser = new Parser();
 
     /*
      * WeatherApp constructor: Sets minimum size and calls InitComponents.
@@ -59,13 +61,13 @@ public class WeatherApp extends JFrame implements ActionListener
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Exit on close
         setMinimumSize( new Dimension(600, 800) ); // Set minimum width and height
 
-        InitComponents(); // Build GUI and set up events
+        initComponents(); // Build GUI and set up events
     }
 
     /*
-     * InitComponents: Creates GUI and packs it. Also sets up menu events.
+     * initComponents: Creates GUI and packs it. Also sets up menu events.
      */
-    private void InitComponents()
+    private void initComponents()
     {
         JMenuBar menuBar = new JMenuBar(); // Main menu bar
 
@@ -78,10 +80,9 @@ public class WeatherApp extends JFrame implements ActionListener
         {
             public void actionPerformed( ActionEvent ae )
             {
-                /*
-                JOptionPane.showMessageDialog(null, stats.TempAvg(weatherContainerList),
-                                              "Average Temperature For " + currentDate,
-                                              JOptionPane.INFORMATION_MESSAGE);*/
+                JOptionPane.showMessageDialog(null, stats.TempAvg(parser.WeatherData),
+                                              "Average Temperature",
+                                              JOptionPane.INFORMATION_MESSAGE);
             }
         } );
         calcMenu.add(avgTempItem); // Add avgTemp to calculation menu
@@ -92,14 +93,15 @@ public class WeatherApp extends JFrame implements ActionListener
         {
             public void actionPerformed( ActionEvent ae )
             {
-                /*
-                arraylist of occurence container high then low
-                one of max one of min
-                JOptionPane.showMessageDialog(null, "Max: "+ max.data +" " + max.date
-                                              + "\nMin: "+ min.data + " " + min.date,
-                                              "Min and Max Temperature For "
-                                              + currentDate,
-                                              JOptionPane.INFORMATION_MESSAGE);*/
+                ArrayList<OccurenceContainer> maxMinTemp = stats.HighLow(parser.WeatherData);
+                OccurenceContainer max = maxMinTemp.get(0);
+                OccurenceContainer min = maxMinTemp.get(1);
+
+                JOptionPane.showMessageDialog(null, "Maximum: "+ max.dataPoint
+                                              + " " + max.date + "\nMinimum: "
+                                              + min.dataPoint + " " + min.date,
+                                              "Min and Max Temperature",
+                                              JOptionPane.INFORMATION_MESSAGE);
             }
         } );
         calcMenu.add(maxMinTempItem); // Add maxMinTemp to calculation menu
@@ -110,10 +112,9 @@ public class WeatherApp extends JFrame implements ActionListener
         {
             public void actionPerformed( ActionEvent ae )
             {
-                /*
-                JOptionPane.showMessageDialog(null, stats.WindSpeedMean(list),
-                                              "Average Wind Speed For " + currentDate,
-                                              JOptionPane.INFORMATION_MESSAGE);*/
+                JOptionPane.showMessageDialog(null, stats.WindSpeedMean(parser.WeatherData),
+                                              "Average Wind Speed",
+                                              JOptionPane.INFORMATION_MESSAGE);
             }
         } );
         calcMenu.add(avgWindSpdItem); //Add avgWindSpd to calculation menu
@@ -124,13 +125,11 @@ public class WeatherApp extends JFrame implements ActionListener
         {
             public void actionPerformed( ActionEvent ae )
             {
-                /*
-                occurence container
-                stats.MaxWindGust(list)
-                JOptionPane.showMessageDialog(null, "Max Gust: " + gust.data + " "
-                                              + gust.date,
-                                              "Max Gust For " + currentDate,
-                                              JOptionPane.INFORMATION_MESSAGE);*/
+                OccurenceContainer gust = stats.MaxWindGust(parser.WeatherData);
+
+                JOptionPane.showMessageDialog(null, "Max Gust: " + gust.dataPoint
+                                              + " " + gust.date, "Max Gust",
+                                              JOptionPane.INFORMATION_MESSAGE);
             }
         } );
         calcMenu.add(maxGustItem); //Add maxGust to calculation menu
@@ -141,11 +140,10 @@ public class WeatherApp extends JFrame implements ActionListener
         {
             public void actionPerformed( ActionEvent ae )
             {
-                /*
                 JOptionPane.showMessageDialog(null, "Prevailing Wind Direction: "
-                                              + stats.PrevailWindDirect(list),
-                                              "Prevailing Wind Direction For " + currentDate,
-                                              JOptionPane.INFORMATION_MESSAGE);*/
+                                              + stats.PrevailWindDirect(parser.WeatherData),
+                                              "Prevailing Wind Direction",
+                                              JOptionPane.INFORMATION_MESSAGE);
             }
         } );
         calcMenu.add(windDirItem); //Add windDir to calculation menu
@@ -156,10 +154,10 @@ public class WeatherApp extends JFrame implements ActionListener
         {
             public void actionPerformed( ActionEvent ae )
             {
-                /*
-                JOptionPane.showMessageDialog(null, "Rainfall: " + stats.Rainfall(list),
-                                              "Total Rainfall For " + currentDate,
-                                              JOptionPane.INFORMATION_MESSAGE);*/
+                JOptionPane.showMessageDialog(null, "Rainfall: "
+                                              + stats.Rainfall(parser.WeatherData),
+                                              "Total Rainfall",
+                                              JOptionPane.INFORMATION_MESSAGE);
             }
         } );
         calcMenu.add(rainfallItem); //Add rainfall to calculation menu
@@ -176,20 +174,20 @@ public class WeatherApp extends JFrame implements ActionListener
             {
                 // Display dialog with help message
                 JOptionPane.showMessageDialog(null, "To view calculations for the"
-					      + " current day, week, month, or"
-					      + " year:\n\tClick on Calculate menu"
-					      + "\n\tChoose the calculation you "
-					      + "wish to see\nTo view different "
-					      + "data sets:\n\tChoose daily, "
-					      + "weekly, monthly, or yearly\n\t"
+                                              + " current day, week, month, or"
+					                          + " year:\n    Click on Calculate menu"
+					                          + "\n    Choose the calculation you "
+					                          + "wish to see\n\nTo view different "
+					                          + "data sets:\n    Choose daily, "
+					                          + "weekly, monthly, or yearly\n    "
                                               + "Select the date that you wish to "
-					      + "view, or is in the week/month/year"
-					      + " you wish to view\nThe graphs"
-					      + " available to view are(from top"
-					      + " to bottom):\n\tTemperature\n\t"
-					      + "Precipitation\n\tUV Index, "
-					      + "Barometric Pressure, & Humidity"
-					      + "(in a tabbed panel)\n\tWind Direction",
+					                          + "view, or is in the week/month/year"
+					                          + " you wish to view\n\nThe graphs"
+					                          + " available to view are(from top"
+					                          + " to bottom):\n    Temperature\n"
+					                          + "    Precipitation\n    UV Index, "
+					                          + "Barometric Pressure, & Humidity"
+					                          + "(in a tabbed panel)\n    Wind Direction",
                                               "Help", JOptionPane.INFORMATION_MESSAGE);
             }
         } );
@@ -222,8 +220,8 @@ public class WeatherApp extends JFrame implements ActionListener
         menuBar.add(helpMenu); //Add help menu to menu bar
         setJMenuBar(menuBar); //Set the frame menu bar
 
-        //Create panel with radio buttons
-        JPanel topPanel = new JPanel(); // Create panel for buttons and label
+        //Create panel with radio buttons and date picker
+        JPanel topPanel = new JPanel(); // Create panel for buttons and picker
         ButtonGroup filterBtnGroup = new ButtonGroup();
         dailyFilter = new JRadioButton("Daily"); // Daily radio button
         weeklyFilter = new JRadioButton("Weekly"); // Weekly radio button
@@ -254,81 +252,96 @@ public class WeatherApp extends JFrame implements ActionListener
         topPanel.add(yearlyFilter);
         topPanel.setOpaque(true);
 
-        // Set start day to 7/11/2012
-        UtilDateModel model = new UtilDateModel(new Date(112, 6, 11));
+        // Set start day of picker to 7/11/2012
+        UtilDateModel model = new UtilDateModel(new Date(112, 6, 11)); // Make model
         model.addChangeListener(new ChangeListener()
         {
+            // Create a changeListener
             public void stateChanged( ChangeEvent e)
             {
                 Date selectedDate = (Date) datePicker.getModel().getValue();
 
                 if (selectedDate != null)
                 {
-                    currentDate = selectedDate;
+                    currentDate = selectedDate; // Set selected date
                     String selectedBtn = filterBtnGroup.getSelection().getActionCommand();
 
+                    // If button is Daily then call GetDay
                     if (selectedBtn == "Daily")
                     {
-                        //do daily things
+                        //parser.GetDay(currentDate);
                     }
+
+                    // If button is Weekly then call GetWeekly
                     if (selectedBtn == "Weekly")
                     {
-                        //do weekly things
+                        //parser.GetWeekly(currentDate);
                     }
+
+                    // If button is Monthly then call GetMonthly
                     if (selectedBtn == "Monthly")
                     {
-                        //do monthly things
+                        //parser.GetMonthly(currentDate);
                     }
+
+                    // If button is Yearly then call GetYearly
                     if (selectedBtn == "Yearly")
                     {
-                        //do yearly things
+                        //parser.GetYearly(currentDate);
                     }
                 }
             }
         });
 
-        Properties p = new Properties();
+        Properties p = new Properties(); // Set up properties
         p.put("text.today", "Today");
         p.put("text.month", "Month");
         p.put("text.year", "Year");
 
-        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, p); //Create panel
 
+        // Create picker
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
-        topPanel.add(datePicker);
+        topPanel.add(datePicker); // Add picker to topPanel
 
-        add(topPanel, BorderLayout.NORTH); //Add radio button panel to frame
+        add(topPanel, BorderLayout.NORTH); //Add top panel to frame
 
-	    MainPanel mainPanel = new MainPanel();
+	    mainPanel = new MainPanel(); //Create main panel
         mainPanel.setOpaque(true);
         add(mainPanel, BorderLayout.CENTER); //Add main panel to frame
 
         pack(); // Package the view
     }
 
+    /*
+     * actionPerformed: Handles radio button events.
+     */
     public void actionPerformed(ActionEvent ae)
     {
         Date selectedDate = (Date) datePicker.getModel().getValue();
 
         if ( ae.getSource() == dailyFilter )
         {
-            //do daily things
+            //parser.GetDay(currentDate);
         }
         else if ( ae.getSource() == weeklyFilter )
         {
-            //do weekly things
+            //parser.GetWeekly(currentDate);
         }
         else if ( ae.getSource() == monthlyFilter )
         {
-            //do monthly things
+            //parser.GetMonthly(currentDate);
         }
         else if ( ae.getSource() == yearlyFilter )
         {
-            //do yearly things
+            //parser.GetYearly(currentDate);
         }
     }
 
+    /*
+     * main: Invokes a runnable and creates and shows WeatherApp.
+     */
     public static void main( String args[] )
     {
         EventQueue.invokeLater( new Runnable()
@@ -346,7 +359,6 @@ public class WeatherApp extends JFrame implements ActionListener
  */
 class MainPanel extends JPanel
 {
-    public JLabel dateLabel;
     public JPanel tempPanel;
     public JPanel precipPanel;
     public JPanel uvPanel;
@@ -354,23 +366,29 @@ class MainPanel extends JPanel
     public JPanel humidPanel;
     public JPanel windPanel;
 
+    /*
+     * MainPanel Constructor: Calls super constructor and calls initComponents.
+     */
 	public MainPanel()
 	{
         super( new GridLayout(0,1) );
         initComponents();
 	}
 
+    /*
+     * initComponents: Creates the panels that will display the graphs.
+     */
     private void initComponents()
     {
         //temp panel
         tempPanel = new JPanel();
         tempPanel.setOpaque(true);
-        add(tempPanel);
+        add(tempPanel); // Add temperature panel to main panel
 
         //precipitation panel
         precipPanel = new JPanel();
         precipPanel.setOpaque(true);
-        add(precipPanel);
+        add(precipPanel); // Add precipitation panel to main panel
 
         //uv index/barometric pressure/humidity panels in a tabbed pane
         uvPanel = new JPanel();
@@ -379,22 +397,26 @@ class MainPanel extends JPanel
         pressurePanel.setOpaque(true);
 	    humidPanel = new JPanel();
 	    humidPanel.setOpaque(true);
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("UV Index", null, uvPanel);
+        JTabbedPane tabbedPane = new JTabbedPane(); // Create a tabbed pane
+        tabbedPane.addTab("UV Index", null, uvPanel); // Add UV panel to tabbed pane
+        // Add barometric pressure panel to tabbed pane
         tabbedPane.addTab("Barometric Pressure", null, pressurePanel);
+        // Add humidity panel to tabbed pane
 	    tabbedPane.addTab("Humidity", null, humidPanel);
-        add(tabbedPane);
+        add(tabbedPane); // Add tabbed pane to main panel
 
         //wind speed panel
         windPanel = new JPanel();
         windPanel.setOpaque(true);
-        add(windPanel);
+        add(windPanel); // Add wind speed panel to main panel
     }
 }
 
+/*
+ * DateLabelFormatter class
+ */
 class DateLabelFormatter extends AbstractFormatter
 {
-
     private String datePattern = "MM/dd/yyyy";
     private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
