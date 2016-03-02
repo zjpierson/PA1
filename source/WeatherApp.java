@@ -49,7 +49,7 @@ public class WeatherApp extends JFrame implements ActionListener
     public MainPanel mainPanel; //Main panel for charts
     public Date currentDate; //Selected Date
     public Statistics stats = new Statistics();
-    public ParseWeatherData parser = new Parser();
+    public ParseWeatherData parser = new ParseWeatherData();
 
     /*
      * WeatherApp constructor: Sets minimum size and calls InitComponents.
