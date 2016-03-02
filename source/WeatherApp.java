@@ -45,9 +45,9 @@ public class WeatherApp extends JFrame implements ActionListener
     public JRadioButton weeklyFilter; //Weekly radio button
     public JRadioButton monthlyFilter; //Monthly radio button
     public JRadioButton yearlyFilter; //Yearly radio button
-    public JDatePickerImpl datePicker;
-    public MainPanel mainPanel;
-    public Date currentDate;
+    public JDatePickerImpl datePicker; //Date picker
+    public MainPanel mainPanel; //Main panel for charts
+    public Date currentDate; //Selected Date
     public Statistics stats = new Statistics();
     public ParseWeatherData parser = new Parser();
 
