@@ -1,3 +1,16 @@
+/*
+ * WeatherConverter.java
+ *
+ * WeatherConverter is used because there are two seperate tags (date and time)
+ * that are both used for createing a Date object.  the other fields will also 
+ * be parse from strings into doubles.  The main Convert function does all of this
+ * formating into the corrent WeatherDataContainer.
+ *
+ * @author Zachary Pierson
+ * @version Spring 2016 - GUI
+ *
+ */
+
 import java.util.*;
 import java.text.*;
 
@@ -23,6 +36,10 @@ public class WeatherConverter
         _ready = true;
     }
 
+   /*
+    * Convert: Converts this WeatherConverter object and returns it as a
+    * WeatherDataContainer object.
+    */
     public WeatherDataContainer Convert()
     {
         WeatherDataContainer weatherPoint = new WeatherDataContainer();
@@ -32,6 +49,7 @@ public class WeatherConverter
             return null;
         }
 
+        //set the format for parsing the date
         DateFormat Format = new SimpleDateFormat("MM/dd/yy hh:mmaa", Locale.ENGLISH);
 
         try
