@@ -176,13 +176,11 @@ public class ParseWeatherData
 
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(month);
-        startDate.set(Calendar.MONTH, 0);
         startDate.set(Calendar.DAY_OF_MONTH, 0);
 
         Calendar endDate = Calendar.getInstance();
         endDate.setTime(month);
-        endDate.set(Calendar.MONTH, 11);
-        endDate.set(Calendar.DAY_OF_MONTH, 28);
+        endDate.set(Calendar.DAY_OF_MONTH, 31);
 
         //figure out which files to use
         ArrayList<String> files = FindFiles(startDate.getTime(), endDate.getTime());
