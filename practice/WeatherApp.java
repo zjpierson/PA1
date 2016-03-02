@@ -4,9 +4,8 @@ import javax.swing.*;
 import java.util.*;
 import java.text.*;
 
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
+import org.jfree.chart.*;
+import org.jfree.chart.renderer.xy.*;
 import org.jfree.chart.plot.*;
 import org.jfree.chart.axis.*;
 import org.jfree.ui.ApplicationFrame;
@@ -145,17 +144,19 @@ public class WeatherApp extends JFrame
 
 //------------------------ Temperature LineChart --------------------------//        
 
-//        ParseWeatherData dataReader = new ParseWeatherData("2010-01.xml");
         ParseWeatherData dataReader = new ParseWeatherData();
         Calendar cal = Calendar.getInstance();
         cal.set(2013, 1, 20);
 
         dataReader.GetYear(cal.getTime());
-        System.out.println("Size after call: " + dataReader.WeatherData.size());
 
         JPanel temperaturePane = new JPanel();
 
-        JFreeChart chartData = ChartFactory.createTimeSeriesChart( "Temperature", "CategoryAxisLable", "ValueAxisLable", dataReader.WeatherData.getTemperatureData(), true, true, false);
+        JFreeChart chartData = ChartFactory.createTimeSeriesChart( "Temperature", "CategoryAxisLable", "ValueAxisLable", dataReader.TemperatureDataset, true, true, false);
+        WeatherToolTip xyToolTipGenerator = new WeatherToolTip(dataReader.WeatherData);
+        XYPlot TemperaturePlot = chartData.getXYPlot();
+        XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) TemperaturePlot.getRenderer();
+        render.setBaseToolTipGenerator(xyToolTipGenerator);
 
         ChartPanel chartPanel = new ChartPanel( chartData );
         chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
@@ -167,6 +168,21 @@ public class WeatherApp extends JFrame
 
 
         pack(); // Package the view
+
+        setVisible(true);
+
+          try
+          {
+              Thread.sleep(10000);
+          }
+          catch(InterruptedException ex)
+          {
+            Thread.currentThread().interrupt();
+          }
+              
+            dataReader.GetDay(cal.getTime());
+            TemperaturePlot.setDataset(dataReader.TemperatureDataset);
+
     }
 
     public static void main( String args[] )
@@ -175,7 +191,7 @@ public class WeatherApp extends JFrame
         {
             public void run()
             {
-                new WeatherApp().setVisible(true);
+                new WeatherApp();
             }
         } );
     }

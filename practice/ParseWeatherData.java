@@ -22,9 +22,18 @@ import java.util.*;
 import java.util.ArrayList;
 import java.text.*;
 
+import org.jfree.data.time.*;
+
 public class ParseWeatherData
 {
     public WeatherList WeatherData;
+    public TimeSeriesCollection TemperatureDataset;
+    public TimeSeriesCollection PrecipDataset;
+    public TimeSeriesCollection UVDataset;
+    public TimeSeriesCollection PressureDataset;
+    public TimeSeriesCollection HumidityDataset;
+    public TimeSeriesCollection WindSpeedDataset;
+
     private ArrayList<String> _DataFiles;
     private String _DataPath;
 
@@ -52,12 +61,15 @@ public class ParseWeatherData
         this("./data/");
     }
 
+
     public boolean GetDay(Date day)
     {
         if(day == null)
         {
             return false;
         }
+
+        WeatherData.clear();
 
         Calendar startMonth = Calendar.getInstance();
         startMonth.setTime(day);
@@ -85,6 +97,8 @@ public class ParseWeatherData
         //Parse files for the day and updates the WeatherData
         ParseFile(files, startDate.getTime(), endDate.getTime());
 
+        UpdateDatasets();
+
         return true;
     }
 
@@ -94,6 +108,8 @@ public class ParseWeatherData
         {
             return false;
         }
+
+        WeatherData.clear();
 
         Calendar startMonth = Calendar.getInstance();
         startMonth.setTime(week);
@@ -119,6 +135,8 @@ public class ParseWeatherData
         //Parse files for the day and updates the WeatherData
         ParseFile(files, startDate.getTime(), endDate.getTime());
 
+        UpdateDatasets();
+
         return true;
     }
 
@@ -128,6 +146,8 @@ public class ParseWeatherData
         {
             return false;
         }
+
+        WeatherData.clear();
 
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(month);
@@ -145,6 +165,8 @@ public class ParseWeatherData
         //Parse files for the day and updates the WeatherData
         ParseFile(files, startDate.getTime(), endDate.getTime());
 
+        UpdateDatasets();
+
         return true;
     }
 
@@ -154,6 +176,8 @@ public class ParseWeatherData
         {
             return false;
         }
+
+        WeatherData.clear();
 
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(year);
@@ -172,6 +196,8 @@ public class ParseWeatherData
 
         //Parse files for the day and updates the WeatherData
         ParseFile(files, startDate.getTime(), endDate.getTime());
+
+        UpdateDatasets();
 
         return true;
     }
@@ -353,6 +379,16 @@ public class ParseWeatherData
         }
 
         return true;
+    }
+
+    private void UpdateDatasets()
+    {
+        TemperatureDataset = WeatherData.getTemperatureDataset();
+        PrecipDataset = WeatherData.getPrecipitationDataset();
+        UVDataset = WeatherData.getUVIndexDataset();
+        PressureDataset = WeatherData.getPressureDataset();
+        HumidityDataset = WeatherData.getHumidityDataset();
+        WindSpeedDataset = WeatherData.getWindSpeedDataset();
     }
 
 }

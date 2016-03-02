@@ -12,7 +12,7 @@ import java.util.*;
 public class WeatherDataContainer 
 {
     public Date date;
-    public double temp;
+    public double temperature;
     public double humidity;
     public double pressure;
     public double windSpeed;
@@ -30,7 +30,7 @@ public class WeatherDataContainer
     public String toString()
     {
         return "Date:            " + date + "\n" + 
-                "Temperature:    " + temp + "\n" + 
+                "Temperature:    " + temperature + "\n" + 
                 "Humidity:       " + humidity + "\n" + 
                 "Pressure:       " + pressure + "\n" + 
                 "Wind Speed:     " + windSpeed + "\n" + 

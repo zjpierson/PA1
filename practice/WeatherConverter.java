@@ -46,7 +46,7 @@ public class WeatherConverter
 
         if(temperature != null)
         {
-            weatherPoint.temp = Double.parseDouble(temperature);
+            weatherPoint.temperature = Double.parseDouble(temperature);
         }
 
         if(humidity != null)
