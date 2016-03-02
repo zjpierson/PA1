@@ -1,32 +1,44 @@
 /*
-                    ***** WeatherDataContainer.java *****
-
-Author: Zachary Pierson
-Class: CSC468 GUI Programming, Spring 2016
-
-Modifications:
-*/
+ * WeatherDataContainer.java
+ *
+ * The weather container holds the values read in from the xml file. It also
+ * has a toString method that makes the object printable for debugging purposes.
+ *
+ * @author Zachary Pierson
+ * @version CSC468 GUI Programming, Spring 2016
+ *
+ * Modifications:
+ */
 
 import java.util.*;
 
+/*
+ * WeatherDataContainer class
+ */
 public class WeatherDataContainer 
 {
-    public Date date;
-    public double temperature;
-    public double humidity;
-    public double pressure;
-    public double windSpeed;
-    public String windDirection;
-    public double windGust;
-    public double windChill;
-    public double heatIndex;
-    public double uvIndex;
-    public double rainFall;
+    public Date date; // date object
+    public double temperature; // temperature object
+    public double humidity; // humidity object
+    public double pressure; // pressure object
+    public double windSpeed; // wind speed object
+    public String windDirection; // wind direction object
+    public double windGust; // wind gust object
+    public double windChill; // wind chill object
+    public double heatIndex; // heat index object
+    public double uvIndex; // uv index object
+    public double rainFall; // rainfall object
 
+    /*
+     * WeatherDataContainer Constructor: Does nothing
+     */
     public WeatherDataContainer()
     {
     }
 
+    /*
+     * WeatherDataContainer Constructor: Does nothing
+     */
     public String toString()
     {
         return "Date:            " + date + "\n" + 
@@ -42,16 +54,3 @@ public class WeatherDataContainer
                 "Rain Fall:      " + rainFall + "\n";
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
