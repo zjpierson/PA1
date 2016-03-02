@@ -10,8 +10,8 @@
  *
  * Bugs:
  *  Yearly takes a bit of time
- *  Prevailing wind direction does not work
- *  Weekly does not work all the way
+ *  Prevailing wind direction does not work (Samantha didn't fix it)
+ *  Weekly does not work at all (Samantha didn't finish it)
  *
  * Modifications:
  *  Feb. 13, 2016   Started on a GUI design
