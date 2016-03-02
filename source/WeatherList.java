@@ -5,8 +5,6 @@
  *
  * @author Zachary Pierson
  * @version CSC468 GUI Programming, Spring 2016
- *
- * Modifications:
  */
 
 import java.util.*;
