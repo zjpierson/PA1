@@ -8,6 +8,11 @@
  * @author Forrest Miller
  * @version Spring 2016 - GUI
  *
+ * Bugs:
+ *  Yearly takes a bit of time
+ *  Prevailing wind direction does not work
+ *  Weekly does not work all the way
+ *
  * Modifications:
  *  Feb. 13, 2016   Started on a GUI design
  *  Feb. 17, 2016   Got GUI design approved by group and started research
@@ -35,6 +40,12 @@ import java.text.*;
 import org.jdatepicker.impl.*;
 import org.jdatepicker.util.*;
 import org.jdatepicker.*;
+import org.jfree.data.xy.*;
+import org.jfree.chart.ChartFactory.*;
+import org.jfree.chart.renderer.xy.*;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.*;
+import org.jfree.*;
 
 /*
  * WeatherApp class that extends JFrame and implements the ActionListener
@@ -50,6 +61,12 @@ public class WeatherApp extends JFrame implements ActionListener
     public Date currentDate; //Selected Date
     public Statistics stats = new Statistics();
     public ParseWeatherData parser = new ParseWeatherData();
+    public XYPlot tempPlot;
+    public XYPlot precipPlot;
+    public XYPlot uvPlot;
+    public XYPlot pressurePlot;
+    public XYPlot humidityPlot;
+    public XYPlot windspdPlot;
 
     /*
      * WeatherApp constructor: Sets minimum size and calls InitComponents.
@@ -269,25 +286,29 @@ public class WeatherApp extends JFrame implements ActionListener
                     // If button is Daily then call GetDay
                     if (selectedBtn == "Daily")
                     {
-                        //parser.GetDay(currentDate);
+                        parser.GetDay(currentDate);
+                        ResetPlotData();
                     }
 
                     // If button is Weekly then call GetWeekly
                     if (selectedBtn == "Weekly")
                     {
-                        //parser.GetWeekly(currentDate);
+                        parser.GetWeek(currentDate);
+                        ResetPlotData();
                     }
 
                     // If button is Monthly then call GetMonthly
                     if (selectedBtn == "Monthly")
                     {
-                        //parser.GetMonthly(currentDate);
+                        parser.GetMonth(currentDate);
+                        ResetPlotData();
                     }
 
                     // If button is Yearly then call GetYearly
                     if (selectedBtn == "Yearly")
                     {
-                        //parser.GetYearly(currentDate);
+                        parser.GetYear(currentDate);
+                        ResetPlotData();
                     }
                 }
             }
@@ -311,6 +332,70 @@ public class WeatherApp extends JFrame implements ActionListener
         mainPanel.setOpaque(true);
         add(mainPanel, BorderLayout.CENTER); //Add main panel to frame
 
+        // Create charts
+        parser.GetDay( (Date)datePicker.getModel().getValue() );
+        WeatherToolTip toolTip = new WeatherToolTip(parser.WeatherData);
+
+        //Temperature
+        JFreeChart tempChart = ChartFactory.createTimeSeriesChart("Temperature",
+        "Time", "Temperature (F)", parser.TemperatureDataset, true, true, false);
+        tempPlot = tempChart.getXYPlot();
+        XYLineAndShapeRenderer tempRenderer = (XYLineAndShapeRenderer)tempPlot.getRenderer();
+        tempRenderer.setBaseToolTipGenerator(toolTip);
+        ChartPanel tChartPanel = new ChartPanel(tempChart);
+        tChartPanel.setPreferredSize( new Dimension(500, 130));
+        mainPanel.tempPanel.add(tChartPanel);
+
+        //Precipitation
+        JFreeChart precipChart = ChartFactory.createTimeSeriesChart("Rainfall",
+        "Time", "Rainfall (inches)", parser.PrecipDataset, true, true, false);
+        precipPlot = precipChart.getXYPlot();
+        XYLineAndShapeRenderer precipRenderer = (XYLineAndShapeRenderer)precipPlot.getRenderer();
+        precipRenderer.setBaseToolTipGenerator(toolTip);
+        ChartPanel pChartPanel = new ChartPanel(precipChart);
+        pChartPanel.setPreferredSize( new Dimension(500, 130));
+        mainPanel.precipPanel.add(pChartPanel);
+
+        //UV Index
+        JFreeChart uvChart = ChartFactory.createTimeSeriesChart("UV Index", "Time",
+        "Index", parser.UVDataset, true, true, false);
+        uvPlot = uvChart.getXYPlot();
+        XYLineAndShapeRenderer uvRenderer = (XYLineAndShapeRenderer)uvPlot.getRenderer();
+        uvRenderer.setBaseToolTipGenerator(toolTip);
+        ChartPanel uvChartPanel = new ChartPanel(uvChart);
+        uvChartPanel.setPreferredSize( new Dimension(500, 130));
+        mainPanel.uvPanel.add(uvChartPanel);
+
+        //Pressure
+        JFreeChart pressureChart = ChartFactory.createTimeSeriesChart("Barometric Pressure",
+        "Time", "Pressure (mmHg)", parser.PressureDataset, true, true, false);
+        pressurePlot = pressureChart.getXYPlot();
+        XYLineAndShapeRenderer pressureRenderer = (XYLineAndShapeRenderer)pressurePlot.getRenderer();
+        pressureRenderer.setBaseToolTipGenerator(toolTip);
+        ChartPanel bpChartPanel = new ChartPanel(pressureChart);
+        bpChartPanel.setPreferredSize( new Dimension(500, 130));
+        mainPanel.pressurePanel.add(bpChartPanel);
+
+        //Humidity
+        JFreeChart humidityChart = ChartFactory.createTimeSeriesChart("Humidity",
+        "Time", "Humidity (%)", parser.HumidityDataset, true, true, false);
+        humidityPlot = humidityChart.getXYPlot();
+        XYLineAndShapeRenderer humidityRenderer = (XYLineAndShapeRenderer)humidityPlot.getRenderer();
+        humidityRenderer.setBaseToolTipGenerator(toolTip);
+        ChartPanel hChartPanel = new ChartPanel(humidityChart);
+        hChartPanel.setPreferredSize( new Dimension(500, 130));
+        mainPanel.humidPanel.add(hChartPanel);
+
+        //Wind Speed
+        JFreeChart windSpdChart = ChartFactory.createTimeSeriesChart("Wind Speed",
+        "Time", "Speed (mph)", parser.WindSpeedDataset, true, true, false);
+        windspdPlot = windSpdChart.getXYPlot();
+        XYLineAndShapeRenderer windRenderer = (XYLineAndShapeRenderer)windspdPlot.getRenderer();
+        windRenderer.setBaseToolTipGenerator(toolTip);
+        ChartPanel wsChartPanel = new ChartPanel(windSpdChart);
+        wsChartPanel.setPreferredSize( new Dimension(500, 130));
+        mainPanel.windPanel.add(wsChartPanel);
+
         pack(); // Package the view
     }
 
@@ -323,20 +408,37 @@ public class WeatherApp extends JFrame implements ActionListener
 
         if ( ae.getSource() == dailyFilter )
         {
-            //parser.GetDay(currentDate);
+            parser.GetDay(currentDate);
+            ResetPlotData();
         }
         else if ( ae.getSource() == weeklyFilter )
         {
-            //parser.GetWeekly(currentDate);
+            parser.GetWeek(currentDate);
+            ResetPlotData();
         }
         else if ( ae.getSource() == monthlyFilter )
         {
-            //parser.GetMonthly(currentDate);
+            parser.GetMonth(currentDate);
+            ResetPlotData();
         }
         else if ( ae.getSource() == yearlyFilter )
         {
-            //parser.GetYearly(currentDate);
+            parser.GetYear(currentDate);
+            ResetPlotData();
         }
+    }
+
+    /*
+     * ResetPlotData: Resets the datasets for all the plots.
+     */
+    public void ResetPlotData()
+    {
+        tempPlot.setDataset(parser.TemperatureDataset);
+        precipPlot.setDataset(parser.PrecipDataset);
+        uvPlot.setDataset(parser.UVDataset);
+        pressurePlot.setDataset(parser.PressureDataset);
+        humidityPlot.setDataset(parser.HumidityDataset);
+        windspdPlot.setDataset(parser.WindSpeedDataset);
     }
 
     /*
