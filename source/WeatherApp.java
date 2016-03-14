@@ -12,6 +12,7 @@
  *  Yearly takes a bit of time
  *  Prevailing wind direction does not work (Samantha didn't fix it)
  *  Weekly does not work at all (Samantha didn't finish it)
+ *  Updating the Charts don't work unless a date is chosen in the datePicker
  *
  * Modifications:
  *  Feb. 13, 2016   Started on a GUI design
@@ -36,6 +37,7 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.util.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.io.*;
 import java.text.*;
 import org.jdatepicker.impl.*;
 import org.jdatepicker.util.*;
@@ -60,7 +62,7 @@ public class WeatherApp extends JFrame implements ActionListener
     public MainPanel mainPanel; //Main panel for charts
     public Date currentDate; //Selected Date
     public Statistics stats = new Statistics();
-    public ParseWeatherData parser = new ParseWeatherData();
+    public ParseWeatherData parser;
     public XYPlot tempPlot;
     public XYPlot precipPlot;
     public XYPlot uvPlot;
@@ -78,6 +80,19 @@ public class WeatherApp extends JFrame implements ActionListener
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Exit on close
         setMinimumSize( new Dimension(600, 800) ); // Set minimum width and height
 
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        int returnVal = fileChooser.showOpenDialog(null);
+        if( returnVal == JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            parser = new ParseWeatherData(file.getName() + "/");
+        }
+        else
+        {
+            parser = new ParseWeatherData();
+        }
         initComponents(); // Build GUI and set up events
     }
 
